@@ -1,0 +1,60 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux8Way16.hdl
+
+/**
+ * 8-way 16-bit multiplexor:
+ * out = a if sel == 000
+ *       b if sel == 001
+ *       etc.
+ *       h if sel == 111
+ */
+
+CHIP Mux8Way16 {
+    IN a[16], b[16], c[16], d[16],
+       e[16], f[16], g[16], h[16],
+       sel[3];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Not(in=sel[0], out=notSel0);
+    Not(in=sel[1], out=notSel1);
+    Not(in=sel[2], out=notSel2);
+    And(a=sel[0], b=sel[1], out=sel11);
+    And(a=sel[0], b=notSel1, out=sel01);
+    And(a=notSel0, b=sel[1], out=sel10);
+    And(a=notSel0, b=notSel1, out=sel00);
+    And(a=sel[2], b=sel11, out=sel111);
+    And(a=sel[2], b=sel01, out=sel101);
+    And(a=sel[2], b=sel10, out=sel110);
+    And(a=sel[2], b=sel00, out=sel100);
+    And(a=notSel2, b=sel11, out=sel011);
+    And(a=notSel2, b=sel01, out=sel001);
+    And(a=notSel2, b=sel10, out=sel010);
+    And(a=notSel2, b=sel00, out=sel000);
+    Widen16(in=sel000, out=sel000x);
+    Widen16(in=sel001, out=sel001x);
+    Widen16(in=sel010, out=sel010x);
+    Widen16(in=sel011, out=sel011x);
+    Widen16(in=sel100, out=sel100x);
+    Widen16(in=sel101, out=sel101x);
+    Widen16(in=sel110, out=sel110x);
+    Widen16(in=sel111, out=sel111x);
+    And16(a=sel000x, b=a, out=temp1);
+    And16(a=sel001x, b=b, out=temp2);
+    And16(a=sel010x, b=c, out=temp3);
+    And16(a=sel011x, b=d, out=temp4);
+    And16(a=sel100x, b=e, out=temp5);
+    And16(a=sel101x, b=f, out=temp6);
+    And16(a=sel110x, b=g, out=temp7);
+    And16(a=sel111x, b=h, out=temp8);
+    Or16(a=temp1, b=temp2, out=tempa);
+    Or16(a=temp3, b=temp4, out=tempb);
+    Or16(a=temp5, b=temp6, out=tempc);
+    Or16(a=temp7, b=temp8, out=tempd);
+    Or16(a=tempa, b=tempb, out=tempab);
+    Or16(a=tempc, b=tempd, out=tempcd);
+    Or16(a=tempab, b=tempcd, out=out);
+}
