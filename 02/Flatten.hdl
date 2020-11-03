@@ -1,0 +1,41 @@
+CHIP Flatten {
+    IN a[16], b;
+    OUT out;
+
+    PARTS: 
+    And(a=a[0], b=b, out=temp1);
+    And(a=a[1], b=b, out=temp2);
+    And(a=a[2], b=b, out=temp3);
+    And(a=a[3], b=b, out=temp4);
+    And(a=a[4], b=b, out=temp5);
+    And(a=a[5], b=b, out=temp6);
+    And(a=a[6], b=b, out=temp7);
+    And(a=a[7], b=b, out=temp8);
+    And(a=a[8], b=b, out=temp9);
+    And(a=a[9], b=b, out=temp10);
+    And(a=a[10], b=b, out=temp11);
+    And(a=a[11], b=b, out=temp12);
+    And(a=a[12], b=b, out=temp13);
+    And(a=a[13], b=b, out=temp14);
+    And(a=a[14], b=b, out=temp15);
+    And(a=a[15], b=b, out=temp16);
+
+    And(a=temp1, b=temp2, out=temp21);
+    And(a=temp3, b=temp4, out=temp22);
+    And(a=temp5, b=temp6, out=temp23);
+    And(a=temp7, b=temp8, out=temp24);
+    And(a=temp9, b=temp10, out=temp25);
+    And(a=temp11, b=temp12, out=temp26);
+    And(a=temp13, b=temp14, out=temp27);
+    And(a=temp15, b=temp16, out=temp28);
+
+    And(a=temp21, b=temp22, out=temp31);
+    And(a=temp23, b=temp24, out=temp32);
+    And(a=temp25, b=temp26, out=temp33);
+    And(a=temp27, b=temp28, out=temp34);
+
+    And(a=temp31, b=temp32, out=temp41);
+    And(a=temp33, b=temp34, out=temp42);
+
+    And(a=temp41, b=temp42, out=out);
+}
