@@ -50,29 +50,32 @@ CHIP ALU {
 
     Widen16(in=false, out=falsehex);
     Widen16(in=true, out=truehex);
+
     Widen16(in=zx, out=zxhex);
     Widen16(in=notzx, out=notzxhex);
     Not16(in=x, out=notx);
 
-    And16(a=zxhex, b=x, out=xtemp01);
-    And16(a=notzxhex, b=notx, out=xtemp02);
-    Or16(a=xtemp01, b=xtemp02, out=xtemp1);
+    And16(a=notzxhex, b=x, out=xtemp1);
 
     Widen16(in=nx, out=nxhex);
+
     Not16(in=nxhex, out=notnxhex);
     Not16(in=xtemp1, out=notxtemp1);
-    And16(a=notnxhex, b=notxtemp1, out=xtemp2);
-    Or16(a=xtemp1, b=xtemp2, out=xfin);
+    And16(a=notnxhex, b=xtemp1, out=xtemp2);
+    And16(a=nxhex, b=notxtemp1, out=xtemp3);
+    Or16(a=xtemp2, b=xtemp3, out=xfin);
 
     Not(in=zy, out=notzy);
     Widen16(in=notzy, out=notzyhex);
+
+    And16(a=notzyhex, b=y, out=ytemp1);
     
     Widen16(in=ny, out=nyhex);
     Not16(in=nyhex, out=notnyhex);
-    And16(a=notzyhex, b=y, out=ytemp1);
     Not16(in=ytemp1, out=notytemp1);
-    And16(a=notnyhex, b=notytemp1, out=ytemp2);
-    Or16(a=ytemp1, b=ytemp2, out=yfin);
+    And16(a=notnyhex, b=ytemp1, out=ytemp2);
+    And16(a=nyhex, b=notytemp1, out=ytemp3);
+    Or16(a=ytemp2, b=ytemp3, out=yfin);
 
     Not(in=f, out=notf);
     Widen16(in=f, out=fhex);
@@ -89,13 +92,13 @@ CHIP ALU {
     Widen16(in=notno, out=notnohex);
     Not16(in=outtemp1, out=notouttemp1);
 
-    And16(a=nohex, b=outtemp1, out=outcand1);
-    And16(a=notnohex, b=notouttemp1, out=outcand2);
+    And16(a=notnohex, b=outtemp1, out=outcand1);
+    And16(a=nohex, b=notouttemp1, out=outcand2);
     Or16(a=outcand1, b=outcand2, out=outres);
     Or16(a=outres, b=falsehex, out=out);
 
     // equals
     Not16(in=outres, out=notout);
-    Flatten(a=notout, b=true, out=zr);
-    Flatten(a=outres, b=true, out=ng);
+    Flattenand(a=notout, b=true, out=zr);
+    get15(in=outres, out=ng);
 }

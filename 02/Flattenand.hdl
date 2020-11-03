@@ -1,4 +1,4 @@
-CHIP Flatten {
+CHIP Flattenand {
     IN a[16], b;
     OUT out;
 
