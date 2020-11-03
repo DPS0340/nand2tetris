@@ -15,4 +15,14 @@ CHIP Bit {
 
     PARTS:
     // Put your code here:
+    Not(in=in, out=notin);
+    And(a=in, b=notin, out=false);
+    Or(a=in, b=notin, out=true);
+
+    DFF(in=load, out=oldload);
+    DFF(in=in, out=oldin);
+    DFF(in=out1, out=oldout);
+
+    Mux(a=oldout, b=in, sel=load, out=out1);
+    Or(a=false, b=oldout, out=out);
 }
