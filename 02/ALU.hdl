@@ -42,5 +42,29 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    // Put you code here:
+    Not(in=zx, out=notzx);
+    And(a=zx, b=notzx, out=false);
+    Or(a=zx, b=notzx, out=true);
+    Widen16(in=false, out=falsex);
+    Widen16(in=true, out=truex);
+    Widen16(in=zx, out=zxhex);
+    Widen16(in=notzx, out=notzxhex);
+    And16(a=notzxhex, b=x, out=xtemp1);
+    Widen16(in=nx, out=nxhex);
+    Not16(in=nxhex, out=notnxhex);
+    Not(in=xtemp1, out=notxtemp1);
+    And16(a=notnxhex, b=notxtemp1, out=xtemp2);
+    And16(a=nxhex, b=xtemp1, out=xtemp3);
+    Or16(a=xtemp2, b=xtemp3, out=xtemp4);
+
+    Not(in=zy, out=notzy);
+    Widen16(in=notzy, out=notzxhex);
+    And16(a=notzxhex, b=x, out=xtemp1);
+    Widen16(in=nx, out=nxhex);
+    Not16(in=nxhex, out=notnxhex);
+    Not(in=xtemp1, out=notxtemp1);
+    And16(a=notnxhex, b=notxtemp1, out=xtemp2);
+    And16(a=nxhex, b=xtemp1, out=xtemp3);
+    Or16(a=xtemp2, b=xtemp3, out=xtemp4);
 }

@@ -1,0 +1,8 @@
+CHIP Imply {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out=nota);
+    Or(a=nota, b=b, out=out);
+}
