@@ -22,9 +22,7 @@
   @ascii
   M=D
   @4096
-  D=A
-  @idx
-  M=D+1
+  D=A-1
 
   @ascii
   D=M
@@ -34,35 +32,33 @@
   @WHITE
   0                             ;JMP
 
-  (FILL)
-  @idx
-  M=M-1
-  D=M
-  @NEXT
-  D                             ;JEQ
+  (FILLITER)
   @color
   D=M
   @SCREEN_PTR
   M=M+1
   A=M
   M=D
-  @FILL
+  @NEXT
   0                             ;JMP
 
   (BLACK)
   @color
   M=-1
-  @FILL
+  @NEXT
   0                             ;JMP
   (WHITE)
+  @color
   M=0
-  @FILL
+  @NEXT
   0                             ;JMP
 
   (NEXT)
-  @SCREEN_ORIGINAL
-  D=M
-  @SCREEN
-  M=D
+  @24575
+  D=A
+  @SCREEN_PTR
+  D=D-M
   @MAIN
-  0                             ;JMP
+  D ; JLE
+  @FILLITER
+  D ; JGT
