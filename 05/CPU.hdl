@@ -40,4 +40,7 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+
+    Memory(in=outM, load=WriteM, address=addressM)
+    
 }

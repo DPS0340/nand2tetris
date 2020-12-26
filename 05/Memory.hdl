@@ -28,4 +28,24 @@ CHIP Memory {
 
     PARTS:
     // Put your code here:
+
+    And(a=load, b=address[14], out=ramLoad);
+    Not(in=ramLoad, out=temp);
+    And(a=load, b=temp, out=screenLoad);
+
+    RAM16K(in=in, load=ramLoad, address=address[1..14], out=ramOut);
+    Screen(in=in, load=screenLoad, address=address[1..13], out=screenOut);
+    Keyboard(out=keyboardOut);
+
+    And16(a=ramOut, b=address14, out=out1);
+    And16(a=ramOut, b=notAddress14, out=out1);
+
+
+    Or16(a=out1, b=keyboardOut, out=out);
+    Not(in=address[14], out=notAddress14Temp);
+    Widen16(in=notAddress14, out=notAddress14);
+    Widen16(in=address[14], out=address14);
+    Not(in=load, out=notLoad);
+    And(a=load, b=notLoad, out=false);
+    Not(in=false, out=true);
 }
