@@ -1,4 +1,4 @@
-CHIP Widen16 {
+kkkkkkCHIP Widen16 {
      IN in;
      OUT out[16];
 
