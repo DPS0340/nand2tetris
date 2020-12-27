@@ -41,6 +41,21 @@ CHIP CPU {
     PARTS:
     // Put your code here:
 
-    Memory(in=outM, load=WriteM, address=addressM)
-    
+    And(a=instruction[15], b=instruction[15], out=iBit);
+    And(a=instruction[12], b=instruction[12], out=aBit);
+
+    Not(in=reset, out=notReset);
+    And(a=reset, b=notReset, out=false);
+    Not(in=false, out=true);
+
+    Mux16(a=instruction, b=outMM, sel=false, out=muxOut);
+    ARegister(in=muxOut, load=false, out=aOut);
+    Mux16(a=aOut, b=inM, sel=aBit, out=mux2Out);
+    ALU(x=dOut ,y=mux2Out ,zx=false ,nx=false ,zy=false ,ny=false ,f=false ,no=false ,out=outMM ,zr=zr ,ng=ng );
+    DRegister(in=outMM ,load=false ,out=dOut); 
+    And16(a=aOut, b=aOut, out[0..14]=addressM);
+    PC(in=aOut ,load=false ,inc=true ,reset=reset ,out[0..14]=pc);
+    And(a=true, b=true, out=writeM);
+    Widen16(in=true, out=true16);
+    And16(a=true16, b=outMM, out=outM);
 }
